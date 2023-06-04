@@ -1,0 +1,88 @@
+﻿@page "/"
+@using BuildJapanAIHandsonDay1_1Ans.Data;
+@using BuildJapanAIHandsonDay1_1Ans.Logic
+@using Microsoft.SemanticKernel.AI.ChatCompletion;
+@inject ISemanticKernelLogic logic
+
+<textarea rows="4" cols="80" @bind=Search />
+<br />
+<button type="submit" @onclick="OnSearch">検索</button>
+
+<br />
+<button type="button" @onclick="OnClear">クリア</button>
+
+@if (Messages != null)
+{
+    <table class="table table-striped">
+        <tbody>
+            @foreach (var message in Messages.OrderByDescending(x => x.Time))
+            {
+                <tr>
+                    <td>@message.Name</td>
+                    @if (message.Name == "Reply")
+                    {
+                        <td>
+                            @(
+                                (MarkupString)message.Message
+                                )
+                        </td>
+                    }
+                    else
+                    {
+                        <td>@message.Message</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    private string? Search;
+    private List<ChatMessage> Messages = new();
+
+    private void OnClear()
+    {
+        logic.ClearChatHistory();
+        Messages.Clear();
+    }
+
+    private async void OnSearch()
+    {
+        if (!string.IsNullOrWhiteSpace(Search))
+        {
+            logic.GeneratedHtml = string.Empty;
+            ChatMessage UserMessage = new();
+            UserMessage.Name = "User";
+            UserMessage.Message = Search;
+            Messages.Add(UserMessage);
+            Search = string.Empty;
+
+            ChatMessage reply = new();
+            reply.Name = "Reply";
+            reply.Message = logic.GeneratedHtml;
+
+            Messages.Add(reply);
+            StateHasChanged();
+            await logic.StreamRun(UserMessage.Message);
+
+            StateHasChanged();
+        }
+    }
+
+
+    protected override void OnInitialized()
+    {
+        logic.OnChange += () => OnCallback();
+    }
+
+    public void OnCallback()
+    {
+        _ = InvokeAsync(() =>
+        {
+            Messages.FindLast(x => x.Name == "Reply")!.Message = logic.GeneratedHtml;
+            StateHasChanged();
+        });
+    }
+}
