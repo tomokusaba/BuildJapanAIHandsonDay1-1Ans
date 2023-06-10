@@ -10,7 +10,6 @@ namespace BuildJapanAIHandsonDay1_1Ans.Logic
 
 
         public void ClearChatHistory();
-        public IList<ChatHistory.Message> GetChatHistory();
         public Task StreamRun(string message);
 
     }

@@ -46,10 +46,6 @@ namespace BuildJapanAIHandsonDay1_1Ans.Logic
             chatHistory = new OpenAIChatHistory(prompt);
         }
 
-        public IList<ChatHistory.Message> GetChatHistory()
-        {
-            return chatHistory.Messages;
-        }
 
         public async Task StreamRun(string input)
         {
@@ -66,7 +62,7 @@ namespace BuildJapanAIHandsonDay1_1Ans.Logic
             var messageHistory = chatHistory.Messages;
             foreach (var item in messageHistory)
             {
-                tempHistory.AddMessage(item.AuthorRole,item.Content);
+                tempHistory.AddMessage(item.Role,item.Content);
             }
             tempHistory.AddSystemMessage(sb.ToString());
 
