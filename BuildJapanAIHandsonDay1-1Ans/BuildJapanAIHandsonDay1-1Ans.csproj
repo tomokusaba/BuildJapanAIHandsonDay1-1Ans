@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.31.0" />
-    <PackageReference Include="Microsoft.SemanticKernel" Version="0.15.230531.5-preview" />
+    <PackageReference Include="Microsoft.SemanticKernel" Version="0.15.230609.2-preview" />
   </ItemGroup>
 
 </Project>
