@@ -34,14 +34,14 @@ namespace BuildJapanAIHandsonDay1_1Ans.Logic
             ChatCompletion = kernel.GetService<IChatCompletion>();
 
             // 引数にはプロンプトメッセージを記述します。：型はstring
-            chatHistory = new OpenAIChatHistory(prompt);
+            chatHistory = (OpenAIChatHistory)ChatCompletion.CreateNewChat(prompt);
 
         }
 
         public void ClearChatHistory()
         {
             // 引数にはプロンプトメッセージを記述します。：型はstring
-            chatHistory = new OpenAIChatHistory(prompt);
+            chatHistory = (OpenAIChatHistory)ChatCompletion.CreateNewChat(prompt);
         }
 
 
