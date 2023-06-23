@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>BuildJapanAIHandsonDay1_1Ans</RootNamespace>
+    <UserSecretsId>16f452d9-4341-4a49-8537-216c4fed8029</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
